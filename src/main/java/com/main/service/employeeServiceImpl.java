@@ -38,4 +38,10 @@ public class employeeServiceImpl implements employeeService {
 		return dao.save(employee);
 	}
 
+	@Override
+	public List<Employee> findEmployeeUsingFirstName(String name) {
+		// TODO Auto-generated method stub
+		return dao.findByName(name);
+	}
+
 }

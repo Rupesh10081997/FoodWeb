@@ -1,21 +1,32 @@
-package com.main.Authentication.service;
+package com.main.Authentication.ServiceImpl;
 
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
+import com.main.Authentication.Entities.AuthRequestDto;
+import com.main.Authentication.Service.AuthService;
+import com.main.Authentication.Service.JwtService;
 
-public class AuthServiceImpl {
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class AuthServiceImpl implements AuthService {
 	@Autowired
     private  AuthenticationManager authenticationManager;
     @Autowired
-    private JwtServiceImpl jwtService;
-    
-    public Map<String, String> authRequest(String userName,String password) {
-       final var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+    private JwtService jwtService;
+    @Override
+    public Map<String, String> authRequest(AuthRequestDto authRequestDto) {
+    	
+       final var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.userName(), authRequestDto.password()));
        final var userDetails =  (UserDetails) authenticate.getPrincipal();
        return   getToken(userDetails);
     }

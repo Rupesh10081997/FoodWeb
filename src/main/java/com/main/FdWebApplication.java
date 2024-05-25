@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class FdWebApplication extends SpringBootServletInitializer{
+public class FdWebApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(FdWebApplication.class, args);

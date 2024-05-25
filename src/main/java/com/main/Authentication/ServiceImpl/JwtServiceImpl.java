@@ -1,15 +1,15 @@
-package com.main.Authentication.service;
+package com.main.Authentication.ServiceImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.main.Authentication.Service.JwtService;
 
 import java.security.Key;
 import java.util.Date;
@@ -17,13 +17,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtServiceImpl {
+public class JwtServiceImpl implements JwtService {
     private final String secretKey ;
 
     public JwtServiceImpl(@Value("${secret}") String secretKey) {
         this.secretKey = secretKey;
     }
 
+    @Override
     public String generateToken(Map<String, Object> extraClaims, String username) {
         return Jwts.builder()
                 .addClaims(extraClaims)
@@ -34,16 +35,18 @@ public class JwtServiceImpl {
                 .compact();
     }
 
+    @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
