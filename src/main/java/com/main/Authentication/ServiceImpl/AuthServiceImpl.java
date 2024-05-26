@@ -35,6 +35,6 @@ public class AuthServiceImpl implements AuthService {
         final var roles = userDetails.getAuthorities();
         final var username = userDetails.getUsername();
         final var token = jwtService.generateToken(Map.of("role", roles), username);
-        return Map.of("token", token);
+        return Map.of("token", "Bearer "+token);
     }
 }
