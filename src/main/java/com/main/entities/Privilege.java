@@ -8,12 +8,9 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Role {
+public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int role_id;
-    private String role_desc;
-    private String status;
-    private int order_id;
-
+    private int privilegeId;
+    private String privilegeDesc;
 }
