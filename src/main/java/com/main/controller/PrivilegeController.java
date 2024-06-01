@@ -24,12 +24,13 @@ public class PrivilegeController {
 
     @PostMapping("/createAcl")
     public ResponseEntity<String> createAcl(@RequestParam("file") MultipartFile file){
+        String msg ="";
         try{
-            String msg = service.createAcl(file);
-
+            msg = service.createAcl(file);
         }catch(Exception ex){
+            System.out.println("Error : "+ex.getMessage());
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("Acl created sucessfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 }

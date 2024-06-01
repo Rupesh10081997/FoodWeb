@@ -1,6 +1,9 @@
 package com.main.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.main.dao.PrivilegeDao;
+import com.main.entities.PrivilegeActivity;
 import com.main.entities.PrivilegeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,24 +29,17 @@ public class PrivilegeServiceImpl implements PrivilegeService{
     @Override
     public String createAcl(MultipartFile file) throws IOException{
         try{
-            List<String> lines = new ArrayList<>();
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<PrivilegeModule> modules;
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    lines.add(line);
-                }
+                modules = objectMapper.readValue(reader, new TypeReference<List<PrivilegeModule>>() {});
             }
-            List<PrivilegeModule> modules = new ArrayList<>();
-
-            //dao.saveAll(modules);
-
-
-
+            dao.saveAll(modules);
         }catch(Exception ex){
+            System.out.println("Error : "+ex.getMessage());
             ex.printStackTrace();
         }
-
-        return "";
+        return "Acl created successfully";
     }
 
 
