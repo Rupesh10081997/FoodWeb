@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface RolePrivilegeService {
 
-    RolePrivilege assignAssignPrivilegeRole(RolePrivilege rolePrivilidge);
+    RolePrivilege assignPrivilegeRole(RolePrivilege rolePrivilidge);
 
     List<RolePrivilege> getPrivilegeRole();
 }

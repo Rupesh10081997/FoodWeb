@@ -13,7 +13,7 @@ public class RolePrivilegeServiceImpl implements RolePrivilegeService {
     RolePrivilegeDao rolePrivilegeDao;
 
     @Override
-    public RolePrivilege assignAssignPrivilegeRole(RolePrivilege rolePrivilege) {
+    public RolePrivilege assignPrivilegeRole(RolePrivilege rolePrivilege) {
         return rolePrivilegeDao.save(rolePrivilege);
     }
 

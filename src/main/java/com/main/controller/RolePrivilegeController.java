@@ -16,9 +16,9 @@ public class RolePrivilegeController {
     @Autowired
     RolePrivilegeService rolePrivilegeService;
 
-    @PostMapping("/assignAssignPrivilegeRole")
+    @PostMapping("/assignPrivilegeRole")
     public ResponseEntity<RolePrivilege> assignAssignPrivilegeRole(@RequestBody @Valid RolePrivilege rolePrivilege){
-        return new ResponseEntity<>(rolePrivilegeService.assignAssignPrivilegeRole(rolePrivilege), HttpStatus.CREATED);
+        return new ResponseEntity<>(rolePrivilegeService.assignPrivilegeRole(rolePrivilege), HttpStatus.CREATED);
     }
 
     @GetMapping("/getPrivilegeRole")
