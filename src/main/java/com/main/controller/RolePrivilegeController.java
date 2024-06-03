@@ -6,17 +6,23 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class RolePrivilegeController {
     @Autowired
     RolePrivilegeService rolePrivilegeService;
 
     @PostMapping("/assignAssignPrivilegeRole")
-    public ResponseEntity<RolePrivilege> assignAssignPrivilegeRole(@RequestBody @Valid RolePrivilege rolePrivilidge){
-        return new ResponseEntity<>(rolePrivilegeService.assignAssignPrivilegeRole(rolePrivilidge), HttpStatus.CREATED);
+    public ResponseEntity<RolePrivilege> assignAssignPrivilegeRole(@RequestBody @Valid RolePrivilege rolePrivilege){
+        return new ResponseEntity<>(rolePrivilegeService.assignAssignPrivilegeRole(rolePrivilege), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getPrivilegeRole")
+    public ResponseEntity<List<RolePrivilege>> getPrivilegeRole(){
+        return new ResponseEntity<>(rolePrivilegeService.getPrivilegeRole(),HttpStatus.OK);
     }
 }

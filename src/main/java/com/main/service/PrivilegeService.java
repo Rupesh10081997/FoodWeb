@@ -11,4 +11,6 @@ public interface PrivilegeService {
     String createAcl(MultipartFile file) throws IOException;
 
     List<PrivilegeModule> getAllLink();
+
+    List<PrivilegeModule> fetchLinkRoleWise();
 }

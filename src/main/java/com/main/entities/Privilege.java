@@ -1,9 +1,6 @@
 package com.main.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -13,4 +10,6 @@ public class Privilege {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int privilegeId;
     private String privilegeDesc;
+    @Transient
+    private boolean isAssign = false;
 }

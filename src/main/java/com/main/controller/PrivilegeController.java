@@ -33,4 +33,9 @@ public class PrivilegeController {
         }
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
+
+    @GetMapping("/fetchLinkRoleWise")
+    public ResponseEntity<List<PrivilegeModule>> fetchLinkRoleWise(){
+        return new ResponseEntity<>(service.fetchLinkRoleWise(),HttpStatus.OK);
+    }
 }
