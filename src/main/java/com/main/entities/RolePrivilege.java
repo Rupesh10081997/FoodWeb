@@ -10,7 +10,7 @@ import org.hibernate.annotations.IdGeneratorType;
 
 @Data
 @Entity
-public class RolePrivilege {
+public class RolePrivilege extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rolePrivilegeId;

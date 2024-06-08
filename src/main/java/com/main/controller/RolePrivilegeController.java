@@ -25,4 +25,9 @@ public class RolePrivilegeController {
     public ResponseEntity<List<RolePrivilege>> getPrivilegeRole(){
         return new ResponseEntity<>(rolePrivilegeService.getPrivilegeRole(),HttpStatus.OK);
     }
+
+    @PostMapping("/updatePrivilegeRole/{roleId}")
+    public ResponseEntity<String> updatePrivilegeRole(@RequestBody @Valid List<RolePrivilege> rolePrivilege,@PathVariable int roleId){
+        return new ResponseEntity<>(rolePrivilegeService.updatePrivilegeRole(rolePrivilege,roleId), HttpStatus.CREATED);
+    }
 }

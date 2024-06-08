@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class PrivilegeModule {
+public class PrivilegeModule extends AbstractEntity{
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int privilegeModuleId;

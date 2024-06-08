@@ -8,4 +8,6 @@ public interface RolePrivilegeService {
     RolePrivilege assignPrivilegeRole(RolePrivilege rolePrivilidge);
 
     List<RolePrivilege> getPrivilegeRole();
+
+    String updatePrivilegeRole(List<RolePrivilege> rolePrivilege, int roleId);
 }

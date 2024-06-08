@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Role {
+public class Role  extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int role_id;
