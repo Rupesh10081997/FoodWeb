@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "fee_category")
-public class FeeCategory {
+public class FeeCategory extends AbstractEntity{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long feeCategoryId;
