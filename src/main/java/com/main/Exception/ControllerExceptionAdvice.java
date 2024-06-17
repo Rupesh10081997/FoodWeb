@@ -2,6 +2,8 @@ package com.main.Exception;
 
 import java.util.*;
 
+import com.main.dto.exception.ErrorDetails;
+import com.main.dto.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import com.main.entities.ErrorResponse;
+import com.main.dto.response.ErrorResponse;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
