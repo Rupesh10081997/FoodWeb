@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Department {
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int departmentId;
 	@NotNull(message="Name do not null")
 	private String departmentName;
