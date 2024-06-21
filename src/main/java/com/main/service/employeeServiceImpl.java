@@ -2,6 +2,8 @@ package com.main.service;
 
 import java.util.List;
 
+import com.main.dao.DepartmentDao;
+import com.main.entities.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import jakarta.validation.Valid;
 public class employeeServiceImpl implements employeeService {
 	@Autowired
 	employeeDao dao;
+
+	@Autowired
+	DepartmentDao departmentDao;
 	
 	@Override
 	public List<Employee> getEmployee() {
@@ -23,6 +28,11 @@ public class employeeServiceImpl implements employeeService {
 	@Override
 	public Employee createEmployee(Employee employee) {
 		// TODO Auto-generated method stub
+		Department department =null;
+		department = departmentDao.findByDepartmentName(employee.getDepartment().getDepartmentName());
+		if(department != null){
+			employee.setDepartment(department);
+		}
 		return dao.save(employee);
 	}
 
