@@ -2,16 +2,18 @@ package com.main.service;
 
 import java.util.List;
 
+import com.main.Authentication.Entities.Users;
 import com.main.Authentication.Service.CommonService;
+import com.main.Authentication.dao.UsersDao;
 import com.main.dao.DepartmentDao;
 import com.main.entities.Department;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.main.dao.employeeDao;
 import com.main.entities.Employee;
 
-import jakarta.validation.Valid;
 @Service
 public class employeeServiceImpl implements employeeService {
 	@Autowired
@@ -22,13 +24,16 @@ public class employeeServiceImpl implements employeeService {
 
 	@Autowired
 	CommonService commonService;
+
+	@Autowired
+	UsersDao usersDao;
 	
 	@Override
 	public List<Employee> getEmployee() {
 		// TODO Auto-generated method stub
 		return dao.findAll();
 	}
-
+	@Transactional
 	@Override
 	public Employee createEmployee(Employee employee) {
 		// Encode password
@@ -38,7 +43,16 @@ public class employeeServiceImpl implements employeeService {
 		if(department != null){
 			employee.setDepartment(department);
 		}
-		return dao.save(employee);
+		Employee emp = dao.save(employee);
+
+		//create users
+		Users users = new Users();
+		users.setUserName(employee.getUserName());
+		users.setPassword(employee.getPassword());
+		users.setStatus(employee.getStatus());
+		usersDao.save(users);
+
+		return emp;
 	}
 
 	@Override

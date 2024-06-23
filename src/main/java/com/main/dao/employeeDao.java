@@ -8,7 +8,9 @@ import com.main.entities.Employee;
 
 @Repository
 public interface employeeDao extends JpaRepository<Employee, Long>{
+/*
 	Employee findByUserName(String username);
+*/
 
 	List<Employee> findByName(String name);
 }

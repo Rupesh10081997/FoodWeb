@@ -3,9 +3,8 @@ package com.main.Authentication.config;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.main.Authentication.Service.CommonService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.main.Authentication.Entities.Users;
+import com.main.Authentication.dao.UsersDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,17 +13,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import com.main.dao.employeeDao;
 import com.main.entities.Employee;
 
 @Service
 public class CustomerDetailsService implements UserDetailsService {
 	@Autowired
-	employeeDao dao;
+    UsersDao dao;
 	
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-    	Employee user = dao.findByUserName(userName);
+        Users user = dao.findByUserName(userName);
     	if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + userName);
         }
@@ -37,7 +35,7 @@ public class CustomerDetailsService implements UserDetailsService {
         		 hashedPassword, authorities);
     }
     
-    private Collection<? extends GrantedAuthority> getAuthoritiesForUser(Employee user) {
+    private Collection<? extends GrantedAuthority> getAuthoritiesForUser(Users user) {
         return Collections.emptyList();
     }
 }
