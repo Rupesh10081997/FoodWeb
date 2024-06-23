@@ -1,5 +1,10 @@
 package com.main.Authentication.filter;
 
+import com.main.dto.exception.CustomExpiredJwtException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.impl.DefaultClaims;
+import io.jsonwebtoken.impl.DefaultHeader;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,17 +39,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        final String jwt = authHeader.get().substring(7);
-        final String userId = jwtService.extractUsername(jwt);
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var userDetails = this.userDetailsService.loadUserByUsername(userId);
+        try{
+            final String jwt = authHeader.get().substring(7);
+            final String userId = jwtService.extractUsername(jwt);
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                var userDetails = this.userDetailsService.loadUserByUsername(userId);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                final var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    final var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+            filterChain.doFilter(request, response);
+        }catch(Exception ex){
+            //ex.printStackTrace();
+            System.out.println("Throwing CustomExpiredJwtException");
+            Header<?> header = new DefaultHeader<>();
+            Claims claims = new DefaultClaims();
+            throw new CustomExpiredJwtException(header, claims, "Token has expired !");
         }
-        filterChain.doFilter(request, response);
+
     }
 }
