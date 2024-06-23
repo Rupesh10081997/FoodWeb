@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.main.Exception.ResourceNotFoundException;
+import com.main.dto.exception.ResourceNotFoundException;
 import com.main.dao.feeCategoryRepository;
 import com.main.entities.FeeCategory;
 

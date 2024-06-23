@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Map<String, String> authRequest(AuthRequestDto authRequestDto) {
     	
-       final var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.userName(), authRequestDto.password()));
+       final var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getUserName(), authRequestDto.getPassword()));
        final var userDetails =  (UserDetails) authenticate.getPrincipal();
        return   getToken(userDetails);
     }

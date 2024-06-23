@@ -1,4 +1,4 @@
-package com.main.Exception;
+package com.main.dto.exception;
 
 import java.util.Date;
 

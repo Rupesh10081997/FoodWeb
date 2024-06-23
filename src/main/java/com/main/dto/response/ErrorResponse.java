@@ -1,4 +1,4 @@
-package com.main.entities;
+package com.main.dto.response;
 
 public class ErrorResponse {
 	private String error;

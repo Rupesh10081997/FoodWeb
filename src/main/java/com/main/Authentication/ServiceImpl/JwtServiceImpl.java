@@ -1,8 +1,9 @@
 package com.main.Authentication.ServiceImpl;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.main.dto.exception.CustomExpiredJwtException;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.DefaultClaims;
+import io.jsonwebtoken.impl.DefaultHeader;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,8 +43,16 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        try {
+            final String username = extractUsername(token);
+            return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        } catch (ExpiredJwtException ex) {
+            throw ex; // Ensure this exception is propagated
+        } catch (Exception ex) {
+            throw new CustomExpiredJwtException(new DefaultHeader<>(), new DefaultClaims(), "Token validation failed");
+        }
+
+
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
