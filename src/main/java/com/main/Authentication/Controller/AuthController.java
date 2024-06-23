@@ -1,5 +1,6 @@
-package com.main.Authentication.controller;
+package com.main.Authentication.Controller;
 
+import com.main.Authentication.Service.CommonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,13 +21,18 @@ import java.util.Map;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-	
-	// To Login Customer with valid username and password
-	@Autowired
-	private AuthService authService;
+
+    // To Login Customer with valid username and password
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    CommonService commonService;
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> authRequest(@RequestBody AuthRequestDto authRequestDto) {
-       var userRegistrationResponse = authService.authRequest(authRequestDto);
-       return new ResponseEntity<>(userRegistrationResponse, HttpStatus.OK);
+        authRequestDto.setPassword(commonService.encodeData(authRequestDto.getPassword()));
+        var userRegistrationResponse = authService.authRequest(authRequestDto);
+        return new ResponseEntity<>(userRegistrationResponse, HttpStatus.OK);
     }
 }

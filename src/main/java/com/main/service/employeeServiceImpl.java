@@ -2,6 +2,7 @@ package com.main.service;
 
 import java.util.List;
 
+import com.main.Authentication.Service.CommonService;
 import com.main.dao.DepartmentDao;
 import com.main.entities.Department;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class employeeServiceImpl implements employeeService {
 
 	@Autowired
 	DepartmentDao departmentDao;
+
+	@Autowired
+	CommonService commonService;
 	
 	@Override
 	public List<Employee> getEmployee() {
@@ -27,7 +31,8 @@ public class employeeServiceImpl implements employeeService {
 
 	@Override
 	public Employee createEmployee(Employee employee) {
-		// TODO Auto-generated method stub
+		// Encode password
+		employee.setPassword(commonService.encodeData(employee.getPassword()));
 		Department department =null;
 		department = departmentDao.findByDepartmentName(employee.getDepartment().getDepartmentName());
 		if(department != null){
