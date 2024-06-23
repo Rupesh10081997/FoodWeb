@@ -2,6 +2,7 @@ package com.main.controller;
 
 import java.util.List;
 
+import com.main.dto.request.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,9 +58,11 @@ public class EmployeeController {
 	
 	@PostMapping("/findEmployeeUsingFirstName")
 	public List<Employee> findEmployeeUsingFirstName(@RequestParam String name){
-		System.out.println(name);
 		return emp.findEmployeeUsingFirstName(name);
 	}
-	
-	
+	@PostMapping("/searchEmployee")
+	public List<Employee> fillterEmployee(@RequestBody CustomerDto customerDto) {
+		System.out.println("in search");
+		return emp.getAllEmployeeFilter(customerDto);
+	}
 }

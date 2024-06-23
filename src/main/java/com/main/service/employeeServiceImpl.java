@@ -6,9 +6,12 @@ import com.main.Authentication.Entities.Users;
 import com.main.Authentication.Service.CommonService;
 import com.main.Authentication.dao.UsersDao;
 import com.main.dao.DepartmentDao;
+import com.main.dto.request.CustomerDto;
+import com.main.dto.request.EmployeeSpecification;
 import com.main.entities.Department;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.main.dao.employeeDao;
@@ -73,4 +76,9 @@ public class employeeServiceImpl implements employeeService {
 		return dao.findByName(name);
 	}
 
-}
+	@Override
+	public List<Employee> getAllEmployeeFilter(CustomerDto dto) {
+		Specification<Employee> spec = EmployeeSpecification.getEmployeesByFilters(dto.getName(), dto.getContactNo(), dto.getStatus(),dto.getStartDate(),dto.getEndDate());
+		return dao.findAll(spec);
+	}
+	}
