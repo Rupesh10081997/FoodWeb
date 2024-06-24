@@ -1,5 +1,5 @@
 <configuration>
-
+    <property name="projectName" value="MySpringBootProject"/>
     <!-- Console appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -9,10 +9,10 @@
 
     <!-- File appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>F:/new hemant/hemant/personal/logs/FDWEB.log</file>
+        <file>F:/new hemant/hemant/personal/logs/${projectName}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>logs/FDWEB-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/${projectName}-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
