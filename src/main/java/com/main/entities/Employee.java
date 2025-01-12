@@ -21,7 +21,7 @@ public class Employee  extends AbstractEntity{
 	private String password;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private Status status = Status.ACTIVE;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="department_id")
 	private Department department;

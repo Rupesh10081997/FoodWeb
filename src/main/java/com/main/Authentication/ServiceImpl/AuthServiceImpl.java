@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     	
        final var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getUserName(), authRequestDto.getPassword()));
        final var userDetails =  (UserDetails) authenticate.getPrincipal();
-       return   getToken(userDetails);
+       return  getToken(userDetails);
     }
 
     public Map<String, String> getToken( UserDetails userDetails) {

@@ -1,10 +1,8 @@
 package com.main.Authentication.filter;
 
-import com.main.dto.exception.CustomExpiredJwtException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.impl.DefaultClaims;
-import io.jsonwebtoken.impl.DefaultHeader;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.main.dto.response.ErrorResponse;
+import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,6 +21,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.main.Authentication.Service.JwtService;
 
 import java.io.IOException;
+import java.security.SignatureException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -52,13 +54,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             filterChain.doFilter(request, response);
-        }catch(Exception ex){
-            //ex.printStackTrace();
-            System.out.println("Throwing CustomExpiredJwtException");
-            Header<?> header = new DefaultHeader<>();
-            Claims claims = new DefaultClaims();
-            throw new CustomExpiredJwtException(header, claims, "Token has expired !");
+        }catch (ExpiredJwtException ex) {
+            // Handle expired token
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setError("ExpiredJwtException");
+            errorResponse.setError_desc("Token has expired.");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+        } catch (MalformedJwtException  | UnsupportedJwtException ex) {
+            // Handle invalid token
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setError("MalformedJwtException And UnsupportedJwtException");
+            errorResponse.setError_desc("Invalid token.");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+        } catch (UsernameNotFoundException ex) {
+            // Handle user not found
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setError("UsernameNotFoundException");
+            errorResponse.setError_desc("User not found.");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+        } catch (Exception ex) {
+            // Handle any other exceptions
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setError("INTERNAL_SERVER_ERROR");
+            errorResponse.setError_desc("An unexpected error occurred.");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
         }
-
     }
 }
